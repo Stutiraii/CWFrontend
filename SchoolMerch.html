@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>School Merch</title>
+    <script
+      src="https://kit.fontawesome.com/88df38ed5a.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+    <script src="SchoolMerch.js"></script>
+    <link rel="stylesheet" href="SchoolMerch.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <header>
+        <h1>{{ sitename }}</h1>
+      </header>
+
+      <main>
+        <figure>
+          <button @click="showCheckout">
+            <i class="fab fa-opencart"></i>
+            Cart ({{ cart.length }})</button
+          ><br /><br />
+        </figure>
+
+        <!-- Show product details -->
+        <div v-if="showProduct" class='products'>
+          <div v-for="(product, index) in products" :key="product.id" class='product-item'>
+            <h2>{{ product.title }}</h2>
+            <img :src="product.image" :alt="product.title" class="product-image" />
+            <p class='product-msg'>{{ product.message }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <button @click="addToCart(product)" v-if="isAvailable(product)">
+              Add
+            </button>
+            <span v-if="product.availableItem === cartCount(product.id)">Sold out!</span>
+            <span v-else-if="product.availableItem - cartCount(product.id) > 0">
+              Only {{ product.availableItem - cartCount(product.id) }} left!
+            </span>
+            <span v-else>Buy Now!!</span>
+          </div>
+        </div>
+
+        <!-- Show checkout details -->
+        <div v-else>
+          <h2>
+            <i class="fab fa-opencart"></i>
+            Checkout
+          </h2>
+
+          <!-- Show the cart items -->
+          <div v-if="cart.length > 0">
+            <ul>
+              <li v-for="(item, index) in cart" :key="index">
+                {{ item.title }} - ${{ item.price }}
+              </li>
+            </ul>
+
+            <p>
+              <strong>First name:</strong> <input v-model="order.firstName" />
+            </p>
+            <p>
+              <strong>Last name:</strong> <input v-model="order.lastName" />
+            </p>
+
+            <p>
+              <strong>Country:</strong>
+              <select v-model="order.country">
+                <option disabled value="">Select a country</option>
+                <option>United Kingdom</option>
+                <option>Wales</option>
+                <option>Scotland</option>
+                <option>Northern Ireland</option>
+              </select>
+            </p>
+
+            <p><strong>City:</strong> <input v-model="order.city" /></p>
+            <p><strong>Postcode:</strong> <input v-model="order.postCode" /></p>
+
+            <p>
+              <input type="checkbox" id="gift" v-model="order.gift" />
+              <label for="gift">Ship As Gift?</label>
+            </p>
+
+            <p>
+              <input
+                type="radio"
+                id="home"
+                value="Home"
+                v-model="order.method"
+              />
+              <label for="home">Home</label>
+              <input
+                type="radio"
+                id="business"
+                value="Business"
+                v-model="order.method"
+              />
+              <label for="business">Business</label>
+            </p>
+
+            <button @click="submitForm">Place Order</button>
+          </div>
+
+          <!-- Show this if there are no items in the cart -->
+          <div v-else>
+            <p>No products in the cart.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script type="text/javascript">
+      new Vue({
+        el: "#app",
+        data: {
+          sitename: "School Merch",
+          showProduct: true,
+          products: [
+            {
+              id: 101,
+              title: "Mathematics",
+              price: 100,
+              message:
+                "Calculus book focusing on questions relating to calculus",
+              image: "img/MathBook.jpg",
+              availableItem: 10,
+              rating: 3,
+            },
+            {
+              id: 102,
+              title: "Physics",
+              price: 80,
+              message: "Physics book covering mechanics and thermodynamics",
+              image: "img/PhysicsBook.jpg",
+              availableItem: 15,
+              rating: 4,
+            },
+            {
+              id: 103,
+              title: "Biology",
+              price: 80,
+              message: "Biology book focusing on ecology and genetics",
+              image: "img/BiologyBook.jpg",
+              availableItem: 15,
+              rating: 4,
+            },
+            {
+              id: 104,
+              title: "Chemistry",
+              price: 80,
+              message: "Chemistry book covering organic and inorganic chemistry",
+              image: "img/ChemistryBook.jpg",
+              availableItem: 15,
+              rating: 4,
+            },
+            {
+              id: 105,
+              title: "Environment Science",
+              price: 80,
+              message: "Environment Science for Environmental Management",
+              image: "img/EnviromentScience.jpg",
+              availableItem: 15,
+              rating: 4,
+            },
+            {
+              id: 106,
+              title: "What is Computer Science?",
+              price: 80,
+              message: "Introduction to the world of computer science",
+              image: "img/ComputerScience.jpg",
+              availableItem: 15,
+              rating: 4,
+            },
+            {
+              id: 107,
+              title: "Advanced Mathematics",
+              price: 80,
+              message: "Advanced topics in mathematics",
+              image: "img/AdvancedMathematics.jpg",
+              availableItem: 15,
+              rating: 4,
+            },
+          ],
+          order: {
+            firstName: "",
+            lastName: "",
+            country: "",
+            city: "",
+            postCode: "",
+            method: "Home",
+            gift: false,
+          },
+          cart: [],
+        },
+        methods: {
+          addToCart(product) {
+            this.cart.push({
+              id: product.id,
+              title: product.title,
+              price: product.price,
+            });
+          },
+          showCheckout() {
+            this.showProduct = !this.showProduct;
+          },
+          submitForm() {
+            alert("Order successful");
+          },
+          isAvailable(product) {
+            return product.availableItem - this.cartCount(product.id) > 0;
+          },
+          cartCount(id) {
+            return this.cart.filter(item => item.id === id).length;
+          },
+        },
+        computed: {
+          itemsLeft() {
+            return (product) => product.availableItem - this.cartCount(product.id);
+          },
+          sortedProducts() {
+            return this.products.sort((a, b) => a.price - b.price);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
