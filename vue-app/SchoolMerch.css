@@ -1,0 +1,96 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background-color: skyblue;
+}
+
+/* Header styling */
+header {
+  display: inline-flex;
+  justify-content: space-between;
+  padding: 30px 0 50px;
+  width: 100%;
+}
+
+/* Main lesson container styling */
+.lessons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+  gap: 20px; /* Space between items */
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin: 10px;
+}
+
+/* Individual lesson item styling */
+.lesson-item {
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
+  padding: 5px 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  text-align: center;
+}
+
+/* Icon styling */
+.lesson-item i {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Lesson title and details */
+.lesson-item h2 {
+  font-size: 18px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.lesson-item p {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Sort controls styling */
+.sort-controls {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sort-controls label {
+  font-size: 16px;
+  color: #333;
+  margin-right: 10px;
+}
+
+/* Buttons */
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
