@@ -12,7 +12,45 @@
 
     <title>School Merch</title>
   </head>
+  
   <body>
-    <div id="app"></div>
+    <div id="app">
+     
+  <header>
+    <h1>{{ sitename }}</h1>
+  </header>
+  <main>
+     <!-- Sorting Controls -->
+     <div class="sort-controls" v-if="showProduct">
+      <label>Sort by:
+        <select v-model="sortAttribute">
+          <option value="subject">Subject</option>
+          <option value="location">Location</option>
+          <option value="price">Price</option>
+          <option value="availableSpaces">Spaces</option>
+        </select>
+      </label>
+      <label>
+        <input type="radio" value="asc" v-model="sortOrder" /> Ascending
+      </label>
+      <label>
+        <input type="radio" value="desc" v-model="sortOrder" /> Descending
+      </label>
+    </div>
+
+
+    </main>
+  </div>
+    <script type="text/javascript">
+      new Vue({
+        el: "#app",
+        data: {
+          sitename: "School Merch",
+          showProduct: true,
+          sortAttribute: "subject", // default sorting attribute
+          sortOrder: "asc", // default sort order
+        }
+        })
+          </script>
   </body>
 </html>
