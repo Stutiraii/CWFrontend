@@ -28,7 +28,7 @@
     </figure>
 
 
-    
+
      <!-- Sorting Controls -->
      <div class="sort-controls" v-if="showProduct">
       <label>Sort by:
@@ -75,6 +75,14 @@
                 {{ item.subject }} - ${{ item.price }}
               </li>
             </ul>
+            <p>
+              <strong>First name:</strong> <input v-model="order.firstName" />
+            </p>
+            <p>
+              <strong>Last name:</strong> <input v-model="order.lastName" />
+            </p>
+
+
           </div>
   <!-- Show this if there are no items in the cart -->
   <div v-else>
@@ -104,6 +112,16 @@
             { id: 10, subject: "Music", location: "Building J", price: 50, availableSpaces: 5, icon: "fas fa-music" },
           ],
           cart: [],
+          order: {
+            firstName: "",
+            lastName: "",
+            country: "",
+            city: "",
+            postCode: "",
+            method: "Home",
+            gift: false,
+          },
+
         },
         methods: {
           addToCart(lesson) {
