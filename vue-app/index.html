@@ -81,6 +81,35 @@
             <p>
               <strong>Last name:</strong> <input v-model="order.lastName" />
             </p>
+            <p>
+              <strong>Country:</strong>
+              <select v-model="order.country">
+                <option disabled value="">Select a country</option>
+                <option>United Kingdom</option>
+                <option>Wales</option>
+                <option>Scotland</option>
+                <option>Northern Ireland</option>
+              </select>
+            </p>
+
+            <p><strong>City:</strong> <input v-model="order.city" /></p>
+            <p><strong>Postcode:</strong> <input v-model="order.postCode" /></p>
+
+            <p>
+              <input type="checkbox" id="gift" v-model="order.gift" />
+              <label for="gift">Ship As Gift?</label>
+            </p>
+
+            <p>
+              <input type="radio" id="home" value="Home" v-model="order.method" />
+              <label for="home">Home</label>
+              <input type="radio" id="business" value="Business" v-model="order.method" />
+              <label for="business">Business</label>
+            </p>
+
+            <button @click="submitForm">Place Order</button>
+          </div>
+
 
 
           </div>
