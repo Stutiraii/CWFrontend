@@ -20,6 +20,15 @@
     <h1>{{ sitename }}</h1>
   </header>
   <main>
+    <figure>
+      <button @click="showCheckout">
+        <i class="fab fa-opencart"></i>
+        Cart ({{ cart.length }})
+      </button><br /><br />
+    </figure>
+
+
+    
      <!-- Sorting Controls -->
      <div class="sort-controls" v-if="showProduct">
       <label>Sort by:
@@ -52,10 +61,29 @@
         </div>
       </div>
 
-
-    </main>
+          <!-- Show checkout details -->
+          <div v-else>
+            <h2>
+              <i class="fab fa-opencart"></i>
+              Checkout
+            </h2>
+            
+              <!-- Show the cart items -->
+          <div v-if="cart.length > 0">
+            <ul>
+              <li v-for="(item, index) in cart" :key="index">
+                {{ item.subject }} - ${{ item.price }}
+              </li>
+            </ul>
+          </div>
+  <!-- Show this if there are no items in the cart -->
+  <div v-else>
+    <p>No lessons in the cart.</p>
   </div>
-    <script type="text/javascript">
+</div>
+</main>
+</div>
+<script type="text/javascript">
       new Vue({
         el: "#app",
         data: {
@@ -83,7 +111,14 @@
               this.cart.push({ id: lesson.id, subject: lesson.subject, price: lesson.price });
               lesson.availableSpaces--;
             }
-          }
+          },
+          showCheckout() {
+            this.showProduct = !this.showProduct;
+          },
+          submitForm() {
+            alert("Order successful");
+          },
+
         },
         computed: {
           sortedLessons() {
