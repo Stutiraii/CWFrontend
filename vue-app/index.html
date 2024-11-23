@@ -15,25 +15,25 @@
 
     <title>School Merch</title>
   </head>
-  
+
   <body>
     <div id="app">
       <header>
         <h1>{{ sitename }}</h1>
       </header>
-  
+
       <main>
         <figure>
           <!-- Cart Button -->
           <button @click="showCheckout">
-            <i class="fab fa-opencart"></i>   Cart ({{ cart.length }})
-
+            <i class="fab fa-opencart"></i> Cart ({{ cart.length }})
           </button>
         </figure>
-  
+
         <!-- Sorting Controls -->
         <div class="sort-controls" v-if="showProduct">
-          <label>Sort by:
+          <label
+            >Sort by:
             <select v-model="sortAttribute">
               <option value="subject">Subject</option>
               <option value="location">Location</option>
@@ -48,28 +48,35 @@
             <input type="radio" value="desc" v-model="sortOrder" /> Descending
           </label>
         </div>
-  
+
         <!-- Show lesson details -->
         <div v-if="showProduct" class="lessons">
-          <div v-for="lesson in sortedLessons" :key="lesson.id" class="lesson-item">
+          <div
+            v-for="lesson in sortedLessons"
+            :key="lesson.id"
+            class="lesson-item"
+          >
             <h2>{{ lesson.subject }}</h2>
             <p><i :class="lesson.icon"></i> {{ lesson.location }}</p>
             <p>Price: ${{ lesson.price }}</p>
             <p>Available Spaces: {{ lesson.availableSpaces }}</p>
-            <button @click="addToCart(lesson)" v-if="lesson.availableSpaces > 0">
+            <button
+              @click="addToCart(lesson)"
+              v-if="lesson.availableSpaces > 0"
+            >
               Add
             </button>
             <span v-else>Sold out!</span>
           </div>
         </div>
-  
+
         <!-- Show checkout details -->
         <div v-else>
           <h2>
             <i class="fab fa-opencart"></i>
             Checkout
           </h2>
-  
+
           <!-- Show the cart items -->
           <div v-if="cart.length > 0">
             <ul>
@@ -79,12 +86,14 @@
             </ul>
             <!-- User Details -->
             <p>
-              <strong>Name:</strong> <input v-model="order.name" @input="validateForm" />
+              <strong>Name:</strong>
+              <input v-model="order.name" @input="validateForm" />
             </p>
             <p>
-              <strong>Phone:</strong> <input v-model="order.phone" @input="validateForm" />
+              <strong>Phone:</strong>
+              <input v-model="order.phone" @input="validateForm" />
             </p>
-  
+
             <!-- Confirm Order -->
             <button @click="submitForm" :disabled="!isFormValid">
               Confirm Order
@@ -97,7 +106,7 @@
         </div>
       </main>
     </div>
-  
+
     <script type="text/javascript">
       new Vue({
         el: "#app",
@@ -107,28 +116,140 @@
           sortAttribute: "subject",
           sortOrder: "asc",
           lessons: [
-            { id: 1, subject: "Mathematics", location: "Building A", price: 100, availableSpaces: 5, icon: "fas fa-calculator" },
-            { id: 2, subject: "Physics", location: "Building B", price: 80, availableSpaces: 5, icon: "fas fa-atom" },
-            { id: 3, subject: "Biology", location: "Building C", price: 90, availableSpaces: 5, icon: "fas fa-dna" },
-            { id: 4, subject: "Chemistry", location: "Building D", price: 95, availableSpaces: 5, icon: "fas fa-flask" },
-            { id: 5, subject: "Computer Science", location: "Building E", price: 85, availableSpaces: 5, icon: "fas fa-laptop-code" },
-            { id: 6, subject: "History", location: "Building F", price: 70, availableSpaces: 5, icon: "fas fa-landmark" },
-            { id: 7, subject: "Geography", location: "Building G", price: 75, availableSpaces: 5, icon: "fas fa-globe" },
-            { id: 8, subject: "English", location: "Building H", price: 60, availableSpaces: 5, icon: "fas fa-book" },
-            { id: 9, subject: "Art", location: "Building I", price: 65, availableSpaces: 5, icon: "fas fa-paint-brush" },
-            { id: 10, subject: "Music", location: "Building J", price: 50, availableSpaces: 5, icon: "fas fa-music" },
+            {
+              id: 1,
+              subject: "Mathematics",
+              location: "Building A",
+              price: 100,
+              availableSpaces: 5,
+              icon: "fas fa-calculator",
+            },
+            {
+              id: 2,
+              subject: "Physics",
+              location: "Building B",
+              price: 80,
+              availableSpaces: 5,
+              icon: "fas fa-atom",
+            },
+            {
+              id: 3,
+              subject: "Biology",
+              location: "Building C",
+              price: 90,
+              availableSpaces: 5,
+              icon: "fas fa-dna",
+            },
+            {
+              id: 4,
+              subject: "Chemistry",
+              location: "Building D",
+              price: 95,
+              availableSpaces: 5,
+              icon: "fas fa-flask",
+            },
+            {
+              id: 5,
+              subject: "Computer Science",
+              location: "Building E",
+              price: 85,
+              availableSpaces: 5,
+              icon: "fas fa-laptop-code",
+            },
+            {
+              id: 6,
+              subject: "History",
+              location: "Building F",
+              price: 70,
+              availableSpaces: 5,
+              icon: "fas fa-landmark",
+            },
+            {
+              id: 7,
+              subject: "Geography",
+              location: "Building G",
+              price: 75,
+              availableSpaces: 5,
+              icon: "fas fa-globe",
+            },
+            {
+              id: 8,
+              subject: "English",
+              location: "Building H",
+              price: 60,
+              availableSpaces: 5,
+              icon: "fas fa-book",
+            },
+            {
+              id: 9,
+              subject: "Art",
+              location: "Building I",
+              price: 65,
+              availableSpaces: 5,
+              icon: "fas fa-paint-brush",
+            },
+            {
+              id: 10,
+              subject: "Music",
+              location: "Building J",
+              price: 50,
+              availableSpaces: 5,
+              icon: "fas fa-music",
+            },
           ],
           cart: [],
-          order: {
-            name: "",
-            phone: "",
-          },
+          order: [
+            {
+              order: {
+                name: "John Doe",
+                phone: "1234567890",
+                lessonIds: [1, 3, 5],
+                spaces: [2, 1, 3],
+              },
+            },
+            {
+              order: {
+                name: "Alice Johnson",
+                phone: "9876543210",
+                lessonIds: [2, 4],
+                spaces: [1, 2],
+              },
+            },
+            {
+              order: {
+                name: "Bob Smith",
+                phone: "5647382910",
+                lessonIds: [3, 6],
+                spaces: [1, 1],
+              },
+            },
+            {
+              order: {
+                name: "Cathy Brown",
+                phone: "1122334455",
+                lessonIds: [5, 8],
+                spaces: [2, 1],
+              },
+            },
+            {
+              order: {
+                name: "David White",
+                phone: "9988776655",
+                lessonIds: [7, 9],
+                spaces: [2, 3],
+              },
+            },
+          ],
           isFormValid: false,
         },
         methods: {
           addToCart(lesson) {
             if (lesson.availableSpaces > 0) {
-              this.cart.push({ id: lesson.id, subject: lesson.subject, price: lesson.price });
+              this.cart.push({
+                id: lesson.id,
+                subject: lesson.subject,
+                price: lesson.price,
+              });
               lesson.availableSpaces--;
             }
           },
@@ -138,7 +259,9 @@
           validateForm() {
             const namePattern = /^[A-Za-z\s]+$/;
             const phonePattern = /^[0-9]+$/;
-            this.isFormValid = namePattern.test(this.order.name) && phonePattern.test(this.order.phone);
+            this.isFormValid =
+              namePattern.test(this.order.name) &&
+              phonePattern.test(this.order.phone);
           },
           submitForm() {
             if (this.isFormValid) {
@@ -152,12 +275,15 @@
           sortedLessons() {
             return this.lessons.slice().sort((a, b) => {
               let modifier = this.sortOrder === "asc" ? 1 : -1;
-              if (a[this.sortAttribute] < b[this.sortAttribute]) return -1 * modifier;
-              if (a[this.sortAttribute] > b[this.sortAttribute]) return 1 * modifier;
+              if (a[this.sortAttribute] < b[this.sortAttribute])
+                return -1 * modifier;
+              if (a[this.sortAttribute] > b[this.sortAttribute])
+                return 1 * modifier;
               return 0;
             });
           },
-        }
+        },
       });
     </script>
   </body>
+</html>
