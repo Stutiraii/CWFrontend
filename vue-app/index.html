@@ -1,3 +1,6 @@
+<!--EDIT CHECKOUT PAGE UI-->
+<!--Fix the lessons and price calculations-->
+<!--Add comments-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,119 +18,94 @@
   
   <body>
     <div id="app">
-     
-  <header>
-    <h1>{{ sitename }}</h1>
-  </header>
-  <main>
-    <figure>
-      <button @click="showCheckout">
-        <i class="fab fa-opencart"></i>
-        Cart ({{ cart.length }})
-      </button><br /><br />
-    </figure>
+      <header>
+        <h1>{{ sitename }}</h1>
+      </header>
+  
+      <main>
+        <figure>
+          <!-- Cart Button -->
+          <button @click="showCheckout">
+            <i class="fab fa-opencart"></i>   Cart ({{ cart.length }})
 
-
-
-     <!-- Sorting Controls -->
-     <div class="sort-controls" v-if="showProduct">
-      <label>Sort by:
-        <select v-model="sortAttribute">
-          <option value="subject">Subject</option>
-          <option value="location">Location</option>
-          <option value="price">Price</option>
-          <option value="availableSpaces">Spaces</option>
-        </select>
-      </label>
-      <label>
-        <input type="radio" value="asc" v-model="sortOrder" /> Ascending
-      </label>
-      <label>
-        <input type="radio" value="desc" v-model="sortOrder" /> Descending
-      </label>
-    </div>
-
-      <!-- Show lesson details -->
-      <div v-if="showProduct" class="lessons">
-        <div v-for="lesson in sortedLessons" :key="lesson.id" class="lesson-item">
-          <h2>{{ lesson.subject }}</h2>
-          <p><i :class="lesson.icon"></i> {{ lesson.location }}</p>
-          <p>Price: ${{ lesson.price }}</p>
-          <p>Available Spaces: {{ lesson.availableSpaces }}</p>
-          <button @click="addToCart(lesson)" v-if="lesson.availableSpaces > 0">
-            Add
           </button>
-          <span v-else>Sold out!</span>
+        </figure>
+  
+        <!-- Sorting Controls -->
+        <div class="sort-controls" v-if="showProduct">
+          <label>Sort by:
+            <select v-model="sortAttribute">
+              <option value="subject">Subject</option>
+              <option value="location">Location</option>
+              <option value="price">Price</option>
+              <option value="availableSpaces">Spaces</option>
+            </select>
+          </label>
+          <label>
+            <input type="radio" value="asc" v-model="sortOrder" /> Ascending
+          </label>
+          <label>
+            <input type="radio" value="desc" v-model="sortOrder" /> Descending
+          </label>
         </div>
-      </div>
-
-          <!-- Show checkout details -->
-          <div v-else>
-            <h2>
-              <i class="fab fa-opencart"></i>
-              Checkout
-            </h2>
-            
-              <!-- Show the cart items -->
+  
+        <!-- Show lesson details -->
+        <div v-if="showProduct" class="lessons">
+          <div v-for="lesson in sortedLessons" :key="lesson.id" class="lesson-item">
+            <h2>{{ lesson.subject }}</h2>
+            <p><i :class="lesson.icon"></i> {{ lesson.location }}</p>
+            <p>Price: ${{ lesson.price }}</p>
+            <p>Available Spaces: {{ lesson.availableSpaces }}</p>
+            <button @click="addToCart(lesson)" v-if="lesson.availableSpaces > 0">
+              Add
+            </button>
+            <span v-else>Sold out!</span>
+          </div>
+        </div>
+  
+        <!-- Show checkout details -->
+        <div v-else>
+          <h2>
+            <i class="fab fa-opencart"></i>
+            Checkout
+          </h2>
+  
+          <!-- Show the cart items -->
           <div v-if="cart.length > 0">
             <ul>
               <li v-for="(item, index) in cart" :key="index">
                 {{ item.subject }} - ${{ item.price }}
               </li>
             </ul>
+            <!-- User Details -->
             <p>
-              <strong>First name:</strong> <input v-model="order.firstName" />
+              <strong>Name:</strong> <input v-model="order.name" @input="validateForm" />
             </p>
             <p>
-              <strong>Last name:</strong> <input v-model="order.lastName" />
+              <strong>Phone:</strong> <input v-model="order.phone" @input="validateForm" />
             </p>
-            <p>
-              <strong>Country:</strong>
-              <select v-model="order.country">
-                <option disabled value="">Select a country</option>
-                <option>United Kingdom</option>
-                <option>Wales</option>
-                <option>Scotland</option>
-                <option>Northern Ireland</option>
-              </select>
-            </p>
-
-            <p><strong>City:</strong> <input v-model="order.city" /></p>
-            <p><strong>Postcode:</strong> <input v-model="order.postCode" /></p>
-
-            <p>
-              <input type="checkbox" id="gift" v-model="order.gift" />
-              <label for="gift">Ship As Gift?</label>
-            </p>
-
-            <p>
-              <input type="radio" id="home" value="Home" v-model="order.method" />
-              <label for="home">Home</label>
-              <input type="radio" id="business" value="Business" v-model="order.method" />
-              <label for="business">Business</label>
-            </p>
-
-            <button @click="submitForm">Place Order</button>
+  
+            <!-- Confirm Order -->
+            <button @click="submitForm" :disabled="!isFormValid">
+              Confirm Order
+            </button>
           </div>
-
-
-
+          <!-- Show this if there are no items in the cart -->
+          <div v-else>
+            <p>No lessons in the cart.</p>
           </div>
-  <!-- Show this if there are no items in the cart -->
-  <div v-else>
-    <p>No lessons in the cart.</p>
-  </div>
-</div>
-</main>
-</div>
-<script type="text/javascript">
+        </div>
+      </main>
+    </div>
+  
+    <script type="text/javascript">
       new Vue({
         el: "#app",
         data: {
           sitename: "School Merch",
           showProduct: true,
-          sortAttribute: "subject", // default sorting attribute
-          sortOrder: "asc", // default sort order
+          sortAttribute: "subject",
+          sortOrder: "asc",
           lessons: [
             { id: 1, subject: "Mathematics", location: "Building A", price: 100, availableSpaces: 5, icon: "fas fa-calculator" },
             { id: 2, subject: "Physics", location: "Building B", price: 80, availableSpaces: 5, icon: "fas fa-atom" },
@@ -142,15 +120,10 @@
           ],
           cart: [],
           order: {
-            firstName: "",
-            lastName: "",
-            country: "",
-            city: "",
-            postCode: "",
-            method: "Home",
-            gift: false,
+            name: "",
+            phone: "",
           },
-
+          isFormValid: false,
         },
         methods: {
           addToCart(lesson) {
@@ -162,10 +135,18 @@
           showCheckout() {
             this.showProduct = !this.showProduct;
           },
-          submitForm() {
-            alert("Order successful");
+          validateForm() {
+            const namePattern = /^[A-Za-z\s]+$/;
+            const phonePattern = /^[0-9]+$/;
+            this.isFormValid = namePattern.test(this.order.name) && phonePattern.test(this.order.phone);
           },
-
+          submitForm() {
+            if (this.isFormValid) {
+              alert("Order submitted successfully!");
+            } else {
+              alert("Please provide a valid Name and Phone.");
+            }
+          },
         },
         computed: {
           sortedLessons() {
@@ -178,6 +159,5 @@
           },
         }
       });
-          </script>
+    </script>
   </body>
-</html>
