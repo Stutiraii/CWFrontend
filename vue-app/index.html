@@ -8,6 +8,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="SchoolMerch.css" />
     <title>School Merch</title>
   </head>
@@ -123,19 +124,18 @@
           order: { name: "", phone: "" },
           isFormValid: false,
         },
-        created() {
+        created: function() {
           // Fetch lessons from the backend
-          fetch("http://localhost:3000/collections/lessons")
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error("Failed to fetch lessons");
-              }
-              return response.json();
-            })
-            .then((data) => {
-              this.lessons = data;
-            })
-            .catch((error) => console.error(error));
+          fetch('http://localhost:3000/collections/lessons')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    this.lessons=data;
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
         },
         methods: {
           toggleCheckout() {
