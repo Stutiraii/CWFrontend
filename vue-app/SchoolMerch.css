@@ -1,24 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Alumni+Sans+Collegiate+One&family=Gochi+Hand&family=Pixelify+Sans&family=Young+Serif&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,500;1,200;1,500;1,600;1,800&family=Sriracha&family=Zhi+Mang+Xing&display=swap");
 * {
-  padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
 }
 
 body,
 html {
   margin: 0;
-  padding: 0;
-  background-color: skyblue;
+  background-color: light pink;
 }
 
 /* Header styling */
 header {
-  display: inline-flex;
+  display: flex;
   justify-content: space-between;
-  padding: 30px 0 50px;
-  width: 100%;
+  padding: 25px 35px;
+  background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  font-family: "Zhi Mang Xing", cursive;
+  font-size: 30px;
 }
+
 
 /* Main lesson container styling */
 .lessons {
@@ -68,6 +73,7 @@ header {
 .sort-controls {
   text-align: center;
   margin-bottom: 20px;
+  padding:2%;
 }
 
 .sort-controls label {
@@ -78,10 +84,11 @@ header {
 
 /* Buttons */
 button {
-  background-color: #007bff;
+  background-color: lightpink;
   color: white;
-  padding: 10px;
-  border: none;
+  padding:15px;
+  border: 2px;
+  float: right;
   border-radius: 5px;
   cursor: pointer;
 }
