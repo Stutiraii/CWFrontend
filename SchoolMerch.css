@@ -45,6 +45,106 @@ header input:hover {
   border-color:  rgb(232, 5, 81);
 }
 
+/* Styling for the checkout page */
+.checkout-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+ul li button {
+  background-color: #ff4d4d;
+  color: white;
+  font-size: 14px;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+ul li button:hover {
+  background-color: #e60000;
+}
+
+/* Styling for cart total */
+p strong {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* User input fields styling */
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #4b9cf3;
+}
+
+/* Invalid input styling */
+input.invalid {
+  border-color: red;
+}
+
+/* Button styling for confirmation */
+button {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #45a049;
+}
+
+/* Empty cart message styling */
+div.v-else {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+}
+
 
 /* Main lesson container styling */
 .lessons {
