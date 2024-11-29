@@ -1,2 +1,2 @@
 # FSCW1
-Website that sells school merch
+Website that sells school lessons

@@ -151,7 +151,6 @@
           fetch("https://backend-1-212e.onrender.com/collections/lessons")
             .then((response) => response.json())
             .then((data) => {
-              console.log(data);
               this.lessons = data;
             })
             .catch((error) => {
@@ -291,4 +290,4 @@
     </script>
   </body>
 </html>
-<!--Remove items from basket-->
+<!--Remove items from basket and include numbers in the search-->
