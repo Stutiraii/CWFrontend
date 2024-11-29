@@ -94,6 +94,7 @@
             <ul>
               <li v-for="(item, index) in cart" :key="index">
                 {{ item.subject }} - ${{ item.price }}
+                <button @click="removeFromCart(index)">Remove</button> <!-- Remove button -->
               </li>
             </ul>
             <p><strong>Total Price: ${{ cartTotal }}</strong></p>
@@ -200,9 +201,20 @@
               this.updateLessonSpaces(lesson);
             }
           },
-
+          removeFromCart(index) {
+    // Get the removed item from the cart
+    const removedItem = this.cart.splice(index, 1)[0]; // Remove the item from the cart
+    
+    // Find the lesson in the lessons array
+    const lesson = this.lessons.find((lesson) => lesson.id === removedItem.id);
+    if (lesson) {
+      // Increment the available spaces for the lesson
+      lesson.availableSpaces++;
+      this.updateLessonSpaces(lesson); // Update the lesson availability in the backend
+    }
+  },
           updateLessonSpaces(lesson) {
-  fetch(`https://backend-1-212e.onrender.com/collections/lessons/${lesson._id}`, { // Ensure `lesson._id` is used
+  fetch(`https://backend-1-212e.onrender.com/collections/lessons/${lesson._id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
