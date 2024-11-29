@@ -7,8 +7,8 @@
       src="https://kit.fontawesome.com/88df38ed5a.js"
       crossorigin="anonymous"
     ></script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico"> 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="SchoolMerch.css" />
     <title>School Merch</title>
   </head>
@@ -18,10 +18,10 @@
       <header>
         <h1>{{ sitename }}</h1>
         <input
-      v-model="searchQuery"
-      @input="performSearch"
-      placeholder="Search lessons..."
-    />
+          v-model="searchQuery"
+          @input="performSearch"
+          placeholder="Search lessons..."
+        />
       </header>
 
       <main>
@@ -34,7 +34,11 @@
 
         <div v-if="searchResults.length > 0">
           <h3>Search Results:</h3>
-          <div v-for="lesson in searchResults" :key="lesson.id" class="lesson-item">
+          <div
+            v-for="lesson in searchResults"
+            :key="lesson.id"
+            class="lesson-item"
+          >
             <h2>{{ lesson.subject }}</h2>
             <p>Location: {{ lesson.location }}</p>
             <p>Price: ${{ lesson.price }}</p>
@@ -165,9 +169,9 @@
               this.searchResults = []; // Clear results if query is empty
               return;
             }
-    
+
             this.isSearching = true; // Set loading state to true
-    
+
             // Fetch search results from the backend based on query
             fetch(`https://backend-1-212e.onrender.com/search?q=${query}`)
               .then((response) => {
@@ -197,29 +201,36 @@
               this.updateLessonSpaces(lesson);
             }
           },
-    
+
           updateLessonSpaces(lesson) {
-  fetch(`https://backend-1-212e.onrender.com/collections/lessons/${lesson.id}`, {
+  fetch(`https://backend-1-212e.onrender.com/collections/lessons/${lesson._id}`, { // Ensure `lesson._id` is used
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ availableSpaces: lesson.availableSpaces }),
+    body: JSON.stringify({
+      availableSpaces: lesson.availableSpaces, // Ensure this is the correct field being updated
+    }),
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`Failed to update lesson spaces for lesson ID: ${lesson.id}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-      return response.json(); // You can log the successful response if you want.
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Lesson updated:", data);
     })
     .catch((error) => {
-      console.error('Update error:', error.message);
+      console.error("Error updating lesson:", error);
     });
 },
+
 
           validateForm() {
             const namePattern = /^[A-Za-z\s]+$/;
             const phonePattern = /^[0-9]+$/;
             this.isFormValid =
-              namePattern.test(this.order.name) && phonePattern.test(this.order.phone);
+              namePattern.test(this.order.name) &&
+              phonePattern.test(this.order.phone);
           },
           submitForm() {
             if (!this.isFormValid) {
@@ -235,7 +246,7 @@
                 price: item.price,
               })),
             };
-    
+
             fetch("https://backend-1-212e.onrender.com/collections/orders", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -259,8 +270,10 @@
           sortedLessons() {
             return [...this.lessons].sort((a, b) => {
               const modifier = this.sortOrder === "asc" ? 1 : -1;
-              if (a[this.sortAttribute] < b[this.sortAttribute]) return -1 * modifier;
-              if (a[this.sortAttribute] > b[this.sortAttribute]) return 1 * modifier;
+              if (a[this.sortAttribute] < b[this.sortAttribute])
+                return -1 * modifier;
+              if (a[this.sortAttribute] > b[this.sortAttribute])
+                return 1 * modifier;
               return 0;
             });
           },
