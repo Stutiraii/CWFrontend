@@ -199,12 +199,22 @@
           },
     
           updateLessonSpaces(lesson) {
-            fetch(`https://backend-1-212e.onrender.com/collections/lessons/${lesson.id}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ availableSpaces: lesson.availableSpaces }),
-            }).catch((error) => console.error(error));
-          },
+  fetch(`https://backend-1-212e.onrender.com/collections/lessons/${lesson.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ availableSpaces: lesson.availableSpaces }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to update lesson spaces for lesson ID: ${lesson.id}`);
+      }
+      return response.json(); // You can log the successful response if you want.
+    })
+    .catch((error) => {
+      console.error('Update error:', error.message);
+    });
+},
+
           validateForm() {
             const namePattern = /^[A-Za-z\s]+$/;
             const phonePattern = /^[0-9]+$/;
