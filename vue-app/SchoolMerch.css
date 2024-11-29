@@ -23,6 +23,27 @@ header {
   font-family: "Zhi Mang Xing", cursive;
   font-size: 30px;
 }
+/* Search Input Focus & Hover Effects */
+header input{
+  border-radius: 10px;
+  width: 200px;
+  height: 30px;
+  position: relative;
+}
+header input:focus {
+  border-color: pink;
+  outline: none;
+  box-shadow: rgb(232, 5, 81);
+}
+
+header input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+header input:hover {
+  border-color:  rgb(232, 5, 81);
+}
 
 
 /* Main lesson container styling */

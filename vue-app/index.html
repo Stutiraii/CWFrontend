@@ -17,8 +17,11 @@
       <!-- Site Header -->
       <header>
         <h1>{{ sitename }}</h1>
-        </header>
-        
+        <input
+      v-model="searchQuery"
+      @input="performSearch"
+      placeholder="Search lessons..."
+    />
       </header>
 
       <main>
@@ -28,6 +31,16 @@
             <i class="fab fa-opencart"></i> Cart ({{ cart.length }})
           </button>
         </figure>
+
+        <div v-if="searchResults.length > 0">
+          <h3>Search Results:</h3>
+          <div v-for="lesson in searchResults" :key="lesson.id" class="lesson-item">
+            <h2>{{ lesson.subject }}</h2>
+            <p>Location: {{ lesson.location }}</p>
+            <p>Price: ${{ lesson.price }}</p>
+            <p>Spaces: {{ lesson.availableSpaces }}</p>
+          </div>
+        </div>
 
         <!-- Sort Controls -->
         <div class="sort-controls" v-if="showProduct">
@@ -124,24 +137,54 @@
           lessons: [], // To be fetched from the backend
           cart: [],
           order: { name: "", phone: "" },
+          searchQuery: "", // Bind the search query here
+          searchResults: [], // Store search results
+          isSearching: false, // Loading state for search
           isFormValid: false,
         },
-        created: function() {
+        created: function () {
           // Fetch lessons from the backend
-          fetch('http://localhost:3000/collections/lessons')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-    this.lessons=data;
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-
+          fetch("https://backend-1-212e.onrender.com/collections/lessons")
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              this.lessons = data;
+            })
+            .catch((error) => {
+              console.error("Error fetching data:", error);
+            });
         },
         methods: {
           toggleCheckout() {
             this.showProduct = !this.showProduct;
+          },
+          performSearch() {
+            // Trim the query and check if it is empty
+            const query = this.searchQuery.trim();
+            if (query === "") {
+              this.searchResults = []; // Clear results if query is empty
+              return;
+            }
+    
+            this.isSearching = true; // Set loading state to true
+    
+            // Fetch search results from the backend based on query
+            fetch(`https://backend-1-212e.onrender.com/search?q=${query}`)
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Failed to fetch search results");
+                }
+                return response.json();
+              })
+              .then((data) => {
+                this.searchResults = data; // Update results
+                this.isSearching = false; // Set loading state to false
+              })
+              .catch((error) => {
+                console.error("Search error:", error);
+                this.searchResults = [];
+                this.isSearching = false; // Set loading state to false
+              });
           },
           addToCart(lesson) {
             if (lesson.availableSpaces > 0) {
@@ -154,8 +197,9 @@
               this.updateLessonSpaces(lesson);
             }
           },
+    
           updateLessonSpaces(lesson) {
-            fetch(`http://localhost:3000/collections/lessons/${lesson.id}`, {
+            fetch(`https://backend-1-212e.onrender.com/collections/lessons/${lesson.id}`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ availableSpaces: lesson.availableSpaces }),
@@ -165,8 +209,7 @@
             const namePattern = /^[A-Za-z\s]+$/;
             const phonePattern = /^[0-9]+$/;
             this.isFormValid =
-              namePattern.test(this.order.name) &&
-              phonePattern.test(this.order.phone);
+              namePattern.test(this.order.name) && phonePattern.test(this.order.phone);
           },
           submitForm() {
             if (!this.isFormValid) {
@@ -182,8 +225,8 @@
                 price: item.price,
               })),
             };
-
-            fetch("http://localhost:3000/collections/orders", {
+    
+            fetch("https://backend-1-212e.onrender.com/collections/orders", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(orderDetails),
