@@ -164,33 +164,33 @@
             this.showProduct = !this.showProduct;
           },
           performSearch() {
-  const query = this.searchQuery.trim();
-  if (query === "") {
-    this.searchResults = [];
-    return;
-  }
+            const query = this.searchQuery.trim();
+            if (query === "") {
+              this.searchResults = [];
+              return;
+            }
 
-  this.isSearching = true;
+            this.isSearching = true;
 
-  // Fetch search results from the backend based on query
-  fetch(`https://backend-1-212e.onrender.com/search?q=${query}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to fetch search results");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      this.searchResults = data;
-      this.isSearching = false;
-    })
-    .catch((error) => {
-      console.error("Search error:", error);
-      this.searchResults = [];
-      this.isSearching = false;
-    });
-  },
-      
+            // Fetch search results from the backend based on query
+            fetch(`https://backend-1-212e.onrender.com/search?q=${query}`)
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Failed to fetch search results");
+                }
+                return response.json();
+              })
+              .then((data) => {
+                this.searchResults = data;
+                this.isSearching = false;
+              })
+              .catch((error) => {
+                console.error("Search error:", error);
+                this.searchResults = [];
+                this.isSearching = false;
+              });
+          },
+
           addToCart(lesson) {
             if (lesson.availableSpaces > 0) {
               this.cart.push({
@@ -205,9 +205,11 @@
           removeFromCart(index) {
             // Get the removed item from the cart
             const removedItem = this.cart.splice(index, 1)[0]; // Remove the item from the cart
-            
+
             // Find the lesson in the lessons array
-            const lesson = this.lessons.find((lesson) => lesson.id === removedItem.id);
+            const lesson = this.lessons.find(
+              (lesson) => lesson.id === removedItem.id
+            );
             if (lesson) {
               // Increment the available spaces for the lesson
               lesson.availableSpaces++;
@@ -215,13 +217,16 @@
             }
           },
           updateLessonSpaces(lesson) {
-            fetch(`https://backend-1-212e.onrender.com/collections/lessons/${lesson._id}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                availableSpaces: lesson.availableSpaces, // Ensure this is the correct field being updated
-              }),
-            })
+            fetch(
+              `https://backend-1-212e.onrender.com/collections/lessons/${lesson._id}`,
+              {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  availableSpaces: lesson.availableSpaces, // Ensure this is the correct field being updated
+                }),
+              }
+            )
               .then((response) => {
                 if (!response.ok) {
                   throw new Error(`HTTP error! status: ${response.status}`);
@@ -278,8 +283,10 @@
           sortedLessons() {
             return [...this.lessons].sort((a, b) => {
               const modifier = this.sortOrder === "asc" ? 1 : -1;
-              if (a[this.sortAttribute] < b[this.sortAttribute]) return -1 * modifier;
-              if (a[this.sortAttribute] > b[this.sortAttribute]) return 1 * modifier;
+              if (a[this.sortAttribute] < b[this.sortAttribute])
+                return -1 * modifier;
+              if (a[this.sortAttribute] > b[this.sortAttribute])
+                return 1 * modifier;
               return 0;
             });
           },
