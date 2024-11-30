@@ -7,7 +7,7 @@
       src="https://kit.fontawesome.com/88df38ed5a.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="icon" type="image/x-icon" href="favicon.ico"> 
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
     <link rel="stylesheet" href="SchoolMerch.css" />
     <title>School Merch</title>
@@ -32,6 +32,7 @@
           </button>
         </figure>
 
+        <!-- Search Results Section -->
         <div v-if="searchResults.length > 0">
           <h3>Search Results:</h3>
           <div
@@ -94,7 +95,7 @@
             <ul>
               <li v-for="(item, index) in cart" :key="index">
                 {{ item.subject }} - ${{ item.price }}
-                <button @click="removeFromCart(index)">Remove</button> <!-- Remove button -->
+                <button @click="removeFromCart(index)">Remove</button>
               </li>
             </ul>
             <p><strong>Total Price: ${{ cartTotal }}</strong></p>
@@ -117,7 +118,7 @@
               />
             </p>
 
-            <!-- Confirm Order -->
+            <!-- Confirm Order Button -->
             <button @click="submitForm" :disabled="!isFormValid">
               Confirm Order
             </button>
@@ -169,36 +170,27 @@
     return;
   }
 
-  const lowerCaseQuery = query.toLowerCase();
+  this.isSearching = true;
 
-  this.searchResults = this.lessons.filter((lesson) => {
-    return (
-      lesson.subject.toLowerCase().includes(lowerCaseQuery) ||
-      lesson.location.toLowerCase().includes(lowerCaseQuery) ||
-      lesson.price.toString().includes(query) ||
-      lesson.availableSpaces.toString().includes(query)
-    );
-  });
-            this.isSearching = true; // Set loading state to true
-
-            // Fetch search results from the backend based on query
-            fetch(`https://backend-1-212e.onrender.com/search?q=${query}`)
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error("Failed to fetch search results");
-                }
-                return response.json();
-              })
-              .then((data) => {
-                this.searchResults = data; // Update results
-                this.isSearching = false; // Set loading state to false
-              })
-              .catch((error) => {
-                console.error("Search error:", error);
-                this.searchResults = [];
-                this.isSearching = false; // Set loading state to false
-              });
-          },
+  // Fetch search results from the backend based on query
+  fetch(`https://backend-1-212e.onrender.com/search?q=${query}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch search results");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      this.searchResults = data;
+      this.isSearching = false;
+    })
+    .catch((error) => {
+      console.error("Search error:", error);
+      this.searchResults = [];
+      this.isSearching = false;
+    });
+  },
+      
           addToCart(lesson) {
             if (lesson.availableSpaces > 0) {
               this.cart.push({
@@ -211,39 +203,35 @@
             }
           },
           removeFromCart(index) {
-    // Get the removed item from the cart
-    const removedItem = this.cart.splice(index, 1)[0]; // Remove the item from the cart
-    
-    // Find the lesson in the lessons array
-    const lesson = this.lessons.find((lesson) => lesson.id === removedItem.id);
-    if (lesson) {
-      // Increment the available spaces for the lesson
-      lesson.availableSpaces++;
-      this.updateLessonSpaces(lesson); // Update the lesson availability in the backend
-    }
-  },
+            // Get the removed item from the cart
+            const removedItem = this.cart.splice(index, 1)[0]; // Remove the item from the cart
+            
+            // Find the lesson in the lessons array
+            const lesson = this.lessons.find((lesson) => lesson.id === removedItem.id);
+            if (lesson) {
+              // Increment the available spaces for the lesson
+              lesson.availableSpaces++;
+              this.updateLessonSpaces(lesson); // Update the lesson availability in the backend
+            }
+          },
           updateLessonSpaces(lesson) {
-  fetch(`https://backend-1-212e.onrender.com/collections/lessons/${lesson._id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      availableSpaces: lesson.availableSpaces, // Ensure this is the correct field being updated
-    }),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Lesson updated:", data);
-    })
-    .catch((error) => {
-      console.error("Error updating lesson:", error);
-    });
-},
-
+            fetch(`https://backend-1-212e.onrender.com/collections/lessons/${lesson._id}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                availableSpaces: lesson.availableSpaces, // Ensure this is the correct field being updated
+              }),
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+              })
+              .catch((error) => {
+                console.error("Error updating lesson:", error);
+              });
+          },
 
           validateForm() {
             const namePattern = /^[A-Za-z\s]+$/;
@@ -290,10 +278,8 @@
           sortedLessons() {
             return [...this.lessons].sort((a, b) => {
               const modifier = this.sortOrder === "asc" ? 1 : -1;
-              if (a[this.sortAttribute] < b[this.sortAttribute])
-                return -1 * modifier;
-              if (a[this.sortAttribute] > b[this.sortAttribute])
-                return 1 * modifier;
+              if (a[this.sortAttribute] < b[this.sortAttribute]) return -1 * modifier;
+              if (a[this.sortAttribute] > b[this.sortAttribute]) return 1 * modifier;
               return 0;
             });
           },
@@ -311,5 +297,3 @@
     </script>
   </body>
 </html>
-<!-- include numbers in the search-->
-<!--make css better-->
