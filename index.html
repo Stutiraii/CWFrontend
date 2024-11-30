@@ -163,13 +163,22 @@
             this.showProduct = !this.showProduct;
           },
           performSearch() {
-            // Trim the query and check if it is empty
-            const query = this.searchQuery.trim();
-            if (query === "") {
-              this.searchResults = []; // Clear results if query is empty
-              return;
-            }
+  const query = this.searchQuery.trim();
+  if (query === "") {
+    this.searchResults = [];
+    return;
+  }
 
+  const lowerCaseQuery = query.toLowerCase();
+
+  this.searchResults = this.lessons.filter((lesson) => {
+    return (
+      lesson.subject.toLowerCase().includes(lowerCaseQuery) ||
+      lesson.location.toLowerCase().includes(lowerCaseQuery) ||
+      lesson.price.toString().includes(query) ||
+      lesson.availableSpaces.toString().includes(query)
+    );
+  });
             this.isSearching = true; // Set loading state to true
 
             // Fetch search results from the backend based on query
@@ -302,4 +311,5 @@
     </script>
   </body>
 </html>
-<!--Remove items from basket and include numbers in the search-->
+<!-- include numbers in the search-->
+<!--make css better-->
