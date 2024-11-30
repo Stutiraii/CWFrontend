@@ -2,15 +2,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Alumni+Sans+Collegiate+One&family=Gochi+Hand&family=Pixelify+Sans&family=Young+Serif&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,500;1,200;1,500;1,600;1,800&family=Sriracha&family=Zhi+Mang+Xing&display=swap");
 
+/* Universal styles */
 * {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* Body and General Styles */
+/* Body and general page background */
 body, html {
+  font-family: "Poppins", sans-serif;
   margin: 0;
-  background-color: #f8f0f5; /* Light pinkish background */
+  background-color: #f9f4f9; /* Soft light pink */
 }
 
 /* Header Styling */
@@ -18,25 +21,27 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 25px 35px;
-  background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+  background: linear-gradient(90deg, #fcb7d6, #fad0c4); /* Gradient of soft pinks */
   border-radius: 10px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   color: #fff;
   font-family: "Zhi Mang Xing", cursive;
-  font-size: 30px;
+  font-size: 28px;
+  align-items: center;
 }
 
-/* Search Input Focus & Hover Effects */
 header input {
   border-radius: 10px;
   width: 200px;
-  height: 30px;
-  position: relative;
+  height: 35px;
+  padding-left: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
 }
+
 header input:focus {
-  border-color: pink;
-  outline: none;
-  box-shadow: 0 0 5px rgb(232, 5, 81);
+  border-color: #ff70a6;
+  box-shadow: 0 0 5px rgba(255, 105, 169, 0.5);
 }
 
 header input::placeholder {
@@ -45,74 +50,76 @@ header input::placeholder {
 }
 
 header input:hover {
-  border-color: rgb(232, 5, 81);
+  border-color: #ff70a6;
 }
 
 /* Main lesson container styling */
 .lessons {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 items per row */
-  gap: 20px; /* Space between items */
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20px);
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 20px;
+  margin: 20px;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Individual lesson item styling */
 .lesson-item {
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20px);
-  border-radius: 10px;
-  padding: 5px 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
   text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.lesson-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Icon styling */
 .lesson-item i {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 10px;
+  font-size: 30px;
+  color: #ff70a6;
+  margin-bottom: 15px;
 }
 
 /* Lesson title and details */
 .lesson-item h2 {
   font-size: 18px;
   color: #333;
-  margin: 10px 0;
+  margin-bottom: 10px;
 }
 
 .lesson-item p {
   font-size: 14px;
-  color: #555;
-  margin: 5px 0;
+  color: #666;
 }
 
 /* Sort controls styling */
 .sort-controls {
   text-align: center;
-  margin-bottom: 20px;
-  padding: 2%;
+  margin-bottom: 30px;
 }
 
 .sort-controls label {
   font-size: 16px;
   color: #333;
   margin-right: 10px;
+  font-weight: 500;
 }
 
 /* Cart Summary and Checkout Page */
 .checkout-container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 40px auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -139,7 +146,7 @@ ul li {
   font-size: 14px;
 }
 
-/*Remove button */
+/* Remove button styling */
 ul li button {
   background-color: transparent;
   color: #ff4d4d;
@@ -147,12 +154,11 @@ ul li button {
   border: none;
   cursor: pointer;
   padding: 5px 10px;
-  transition: color 0.3s ease;
-  text-decoration: underline; /* Underline to make it look like a link */
+  text-decoration: underline;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
-/* Remove button hover effect */
 ul li button:hover {
   color: #e60000;
 }
@@ -161,6 +167,7 @@ ul li button:hover {
 p strong {
   font-size: 1.2rem;
   color: #333;
+  font-weight: 600;
 }
 
 /* User input fields styling */
@@ -174,7 +181,7 @@ input[type="text"] {
 
 input[type="text"]:focus {
   outline: none;
-  border-color: #4b9cf3;
+  border-color: #ff70a6;
 }
 
 /* Invalid input styling */
@@ -184,25 +191,26 @@ input.invalid {
 
 /* Button styling for confirmation */
 button {
-  background-color: lightpink;
+  background-color: #ff70a6;
   color: white;
-  padding: 15px;
-  border: 2px;
+  padding: 12px;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
   width: 100%;
+  font-size: 16px;
   margin-top: 20px;
   transition: background-color 0.3s ease;
 }
 
 /* Button hover effect */
 button:hover {
-  background-color: #0056b3;
+  background-color: #ff4d4d;
 }
 
 /* Empty cart message styling */
 div.v-else {
   text-align: center;
   font-size: 1.2rem;
-  color: #666;
+  color: #888;
 }
